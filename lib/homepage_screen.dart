@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsapp/constant/url_constant.dart';
 import 'package:newsapp/widget/news_card.dart';
@@ -19,6 +19,12 @@ class _MyHomePageState extends State<MyHomePage> {
     var url = Uri.parse(NEWS_API_url);
     var response = await http.get(url);
     return jsonDecode(response.body);
+  }
+
+  launchurl(url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -41,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          physics: const BouncingScrollPhysics(),
           child: Center(
             child: FutureBuilder(
               future: fetchNews(),
@@ -49,31 +57,37 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Column(children: [
                     ...snapshot.data["articles"].map((e) => Padding(
                           padding: const EdgeInsets.all(8),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Column(
-                              children: [
-                                Image.network(e["urlToImage"] ?? No_image),
-                                const Padding(padding: EdgeInsets.all(8)),
-                                Column(
-                                  children: [
-                                    Text(
-                                      e["title"] ?? "...",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    e["description"] ?? "..",
-                                    style: TextStyle(color: Colors.white),
+                          child: GestureDetector(
+                            onTap: () async {
+                              launchurl(e["url"]);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Column(
+                                children: [
+                                  Image.network(e["urlToImage"] ?? No_image),
+                                  const Padding(padding: EdgeInsets.all(8)),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        e["title"] ?? "...",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
                                   ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      e["description"] ?? "..",
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         )),
