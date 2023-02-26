@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:newsapp/constant/url_constant.dart';
 import 'package:newsapp/widget/news_card.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -30,32 +31,35 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                color: Colors.white,
-                onPressed: () {
-                  exit(0);
-                },
-                icon: const Icon(Icons.logout))
-          ],
-          centerTitle: true,
-          backgroundColor: Colors.red,
-          title: const Text(
-            "NewsApp",
-            style: TextStyle(color: Colors.white),
-          ),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              color: Colors.white,
+              onPressed: () {
+                exit(0);
+              },
+              icon: const Icon(Icons.logout))
+        ],
+        centerTitle: true,
+        backgroundColor: Colors.red,
+        title: const Text(
+          "NewsApp",
+          style: TextStyle(color: Colors.white),
         ),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          physics: const BouncingScrollPhysics(),
-          child: Center(
-            child: FutureBuilder(
-              future: fetchNews(),
-              builder: ((context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return Column(children: [
-                    ...snapshot.data["articles"].map((e) => Padding(
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: const BouncingScrollPhysics(),
+        child: Center(
+          child: FutureBuilder(
+            future: fetchNews(),
+            builder: ((context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return Column(children: [
+                  ...snapshot.data["articles"].map(
+                    (e) => Stack(
+                      children: [
+                        Padding(
                           padding: const EdgeInsets.all(8),
                           child: GestureDetector(
                             onTap: () async {
@@ -90,18 +94,33 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ),
-                        )),
-                  ]);
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.red,
+                        ),
+                        Positioned(
+                          top: 10,
+                          right: 10,
+                          child: IconButton(
+                            onPressed: () async {
+                              Share.share(
+                                  "Do you want to share this news${e["url"]}");
+                            },
+                            icon: const Icon(Icons.share),
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }
-              }),
-            ),
+                  ),
+                ]);
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.red,
+                  ),
+                );
+              }
+            }),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
