@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(Icons.logout))
         ],
         centerTitle: true,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.redAccent,
         title: const Text(
           "NewsApp",
           style: TextStyle(color: Colors.white),
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: Colors.red,
+                                  color: Colors.redAccent,
                                   borderRadius: BorderRadius.circular(12)),
                               child: Column(
                                 children: [
@@ -108,10 +108,28 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ]);
+              } else if (snapshot.hasError) {
+                return const Text(
+                  "Connection Failed",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                );
+                /*
+                return Padding(
+                  padding: const EdgeInsets.all(100),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.redAccent.shade400,
+                    ),
+                  ),
+                ); 
+                */
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.red,
+                return Padding(
+                  padding: const EdgeInsets.all(100),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.redAccent.shade400,
+                    ),
                   ),
                 );
               }
