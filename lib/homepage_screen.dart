@@ -122,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 */
               } else {
                 return Padding(
-                  padding: const EdgeInsets.all(100),
+                  padding: const EdgeInsets.all(150),
                   child: Center(
                     child: CircularProgressIndicator(
                       color: Colors.redAccent.shade400,

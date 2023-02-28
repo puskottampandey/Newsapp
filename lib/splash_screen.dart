@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
             Container(
               height: 10,
             ),
-            const Padding(padding: EdgeInsets.all(100)),
+            const Padding(padding: EdgeInsets.all(150)),
             const Center(
               child: CircularProgressIndicator(
                 color: Colors.white,
