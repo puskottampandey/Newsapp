@@ -109,10 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ]);
               } else if (snapshot.hasError) {
-                return const Text(
-                  "Connection Failed",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                );
+                return Center(child: Image.asset('assets/images/failed.jpg'));
                 /*
                 return Padding(
                   padding: const EdgeInsets.all(100),
