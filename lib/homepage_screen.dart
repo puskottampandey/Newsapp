@@ -32,11 +32,12 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         actions: [
           IconButton(
-              color: Colors.white,
-              onPressed: () {
-                exit(0);
-              },
-              icon: const Icon(Icons.logout))
+            color: Colors.white,
+            onPressed: () {
+              exit(0);
+            },
+            icon: const Icon(Icons.logout),
+          )
         ],
         centerTitle: true,
         backgroundColor: Colors.redAccent,
@@ -101,7 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               Share.share(
                                   "Do you want to share this news${e["url"]}");
                             },
-                            icon: const Icon(Icons.share),
+                            icon: const Icon(
+                              Icons.share,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],
