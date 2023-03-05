@@ -23,7 +23,7 @@ class SplashScreen extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Container(height: 150),
+            Container(height: 250),
             Center(child: Image.asset('assets/images/ic_launcher.png')),
             const Padding(padding: EdgeInsets.all(50)),
             const Center(
